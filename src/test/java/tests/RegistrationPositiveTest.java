@@ -1,5 +1,6 @@
 package tests;
 
+import manager.ApplicationManager;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -9,11 +10,12 @@ import java.util.concurrent.TimeUnit;
 
 public class RegistrationPositiveTest extends TestBase{
 
+
     @BeforeMethod
     public void preCondition(){
-        wd.navigate().to("https://contacts-app.tobbymarshall815.vercel.app/home");
-        if(isLogged()){
-            logout();
+//        wd.navigate().to("https://contacts-app.tobbymarshall815.vercel.app/home");
+        if(app.getUser().isLogged()){
+            app.getUser().logout();
         }
 
     }
@@ -35,11 +37,12 @@ public class RegistrationPositiveTest extends TestBase{
         String password = "89Ar95tr$";
         System.out.println("Email: " + email);
 
-        openLoginRegistrationForm();
-        fillLoginRegistrationForm(email, password);
-        submitRegistration();
+        app.getUser().openLoginRegistrationForm();
+        app.getUser().fillLoginRegistrationForm(email, password);
+        app.getUser().submitRegistration();
 
-        Assert.assertTrue(isElementPresent(By.xpath("//button")));
+        Assert.assertTrue(app.getUser().isElementPresent(By.xpath("//button")));
+
 
     }
 
@@ -50,9 +53,13 @@ public class RegistrationPositiveTest extends TestBase{
         String password = "89Ar95tr$";
         System.out.println("Email: " + email);
 
-        openLoginRegistrationForm();
-        fillLoginRegistrationForm(email, password);
-        submitRegistration();
+        app.getUser().openLoginRegistrationForm();
+        app.getUser().fillLoginRegistrationForm(email, password);
+        app.getUser().submitRegistration();
+
+        Assert.assertTrue(app.getUser().isWrongMessageFormat());
+        Assert.assertTrue(app.getUser().isAlertPresent());
+
 
     }
 
